@@ -1,0 +1,158 @@
+@import 'tailwindcss';
+
+/*
+ * Brand tokens. Change colours and fonts here and every screen follows.
+ * The brand name itself is edited in /admin under Business settings.
+ */
+@theme {
+  --font-display: 'Bricolage Grotesque Variable', 'DM Sans Variable', system-ui, sans-serif;
+  --font-sans: 'DM Sans Variable', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+
+  --color-ink: #1c261f;
+  --color-ink-soft: #4a5a4f;
+  --color-forest: #1e4d2b;
+  --color-forest-deep: #153a20;
+  --color-leaf: #5fa33b;
+  --color-leaf-soft: #e3f0d8;
+  --color-paper: #fffdf7;
+  --color-cream: #f7f1df;
+  --color-mist: #efe9d6;
+  --color-line: #e2dac0;
+  --color-citrus: #f2c230;
+  --color-citrus-soft: #fbf0c4;
+  --color-berry: #a8323e;
+  --color-berry-soft: #f8e1e3;
+  --color-amber-soft: #fdf1d3;
+
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 10px;
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+  }
+  body {
+    background: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: 16px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    overscroll-behavior-y: none;
+  }
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    letter-spacing: -0.015em;
+    line-height: 1.1;
+    font-weight: 700;
+    text-wrap: balance;
+  }
+  p {
+    text-wrap: pretty;
+  }
+  :focus-visible {
+    outline: 3px solid var(--color-citrus);
+    outline-offset: 2px;
+  }
+  button,
+  [role='button'],
+  summary {
+    cursor: pointer;
+  }
+  img {
+    max-width: 100%;
+  }
+  dialog::backdrop {
+    background: rgb(28 38 31 / 0.5);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+/* Dotted leader between a fruit and its price, as on a market rate board. */
+.leader {
+  flex: 1;
+  min-width: 1rem;
+  border-bottom: 2px dotted var(--color-line);
+  transform: translateY(-0.3em);
+}
+
+/* Room for the phone's home bar when the site runs as an installed app. */
+.safe-bottom {
+  padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
+}
+.safe-top {
+  padding-top: env(safe-area-inset-top);
+}
+
+/* Styled like the real page and placed below where the header will appear, so nothing jumps when the app starts. */
+.ssr-fallback {
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: calc(3.5rem + 2.5rem) 1rem 2rem;
+}
+.ssr-fallback h1 {
+  color: var(--color-forest);
+  font-size: 2.6rem;
+  line-height: 1.02;
+}
+.ssr-fallback p {
+  margin-top: 1.25rem;
+  max-width: 32rem;
+  font-size: 1.125rem;
+  color: var(--color-ink-soft);
+}
+.ssr-fallback ul {
+  margin-top: 1rem;
+}
+/* Once React is showing the header, the server text is only a loading placeholder inside the page. */
+main .ssr-fallback {
+  padding-top: 2.5rem;
+}
+@media (min-width: 640px) {
+  .ssr-fallback h1 {
+    font-size: 3.75rem;
+  }
+}
+@media (min-width: 768px) {
+  .ssr-fallback {
+    padding-top: calc(3.5rem + 4rem);
+  }
+  main .ssr-fallback {
+    padding-top: 4rem;
+  }
+}
+.ssr-fallback a {
+  color: var(--color-forest);
+  text-decoration: underline;
+}
+
+.prose-policy h2 {
+  font-size: 1.25rem;
+  margin-top: 1.75rem;
+  margin-bottom: 0.5rem;
+}
+.prose-policy p,
+.prose-policy li {
+  margin-bottom: 0.75rem;
+}
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+}

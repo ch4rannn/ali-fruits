@@ -1,0 +1,72 @@
+// One Worker serves the storefront, /admin, /rider and /api.
+// The top level is the local development environment. Staging and production
+// use their own D1 databases and R2 buckets, so production data never reaches dev.
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "ali-fruits",
+  "main": "src/worker/index.ts",
+  "compatibility_date": "2026-08-22",
+  "compatibility_flags": ["nodejs_compat"],
+  "upload_source_maps": true,
+  "observability": { "enabled": true, "head_sampling_rate": 1 },
+  "assets": {
+    "directory": "./dist/client",
+    "binding": "ASSETS",
+    "not_found_handling": "single-page-application",
+    "run_worker_first": [
+      "/*",
+      "!/assets/*",
+      "!/icons/*",
+      "!/sw.js",
+      "!/favicon.svg",
+      "!/offline.html",
+      // Vite's development modules. These paths do not exist in a production build.
+      "!/@vite/*",
+      "!/@react-refresh",
+      "!/@id/*",
+      "!/@fs/*",
+      "!/src/*",
+      "!/node_modules/*"
+    ]
+  },
+  "triggers": { "crons": ["30 21 * * *"] },
+  "d1_databases": [
+    { "binding": "DB", "database_name": "ali-fruits-dev", "database_id": "00000000-0000-0000-0000-000000000000", "migrations_dir": "migrations" }
+  ],
+  "r2_buckets": [{ "binding": "BUCKET", "bucket_name": "ali-fruits-dev" }],
+  "vars": {
+    "ENVIRONMENT": "development",
+    "PUBLIC_SITE_URL": "",
+    "SELLER_DETAILS_VERIFIED": "true",
+    "FSSAI_COVERAGE_VERIFIED": "true",
+    "ONLINE_SALES_ENABLED": "true"
+  },
+  "env": {
+    "staging": {
+      "d1_databases": [
+        { "binding": "DB", "database_name": "ali-fruits-staging", "database_id": "REPLACE_WITH_STAGING_D1_ID", "migrations_dir": "migrations" }
+      ],
+      "r2_buckets": [{ "binding": "BUCKET", "bucket_name": "ali-fruits-staging" }],
+      "vars": {
+        "ENVIRONMENT": "staging",
+        "PUBLIC_SITE_URL": "",
+        "SELLER_DETAILS_VERIFIED": "false",
+        "FSSAI_COVERAGE_VERIFIED": "false",
+        "ONLINE_SALES_ENABLED": "false"
+      }
+    },
+    "production": {
+      "d1_databases": [
+        { "binding": "DB", "database_name": "ali-fruits-production", "database_id": "REPLACE_WITH_PRODUCTION_D1_ID", "migrations_dir": "migrations" }
+      ],
+      "r2_buckets": [{ "binding": "BUCKET", "bucket_name": "ali-fruits-production" }],
+      "vars": {
+        "ENVIRONMENT": "production",
+        "PUBLIC_SITE_URL": "",
+        "SELLER_DETAILS_VERIFIED": "false",
+        "FSSAI_COVERAGE_VERIFIED": "false",
+        "ONLINE_SALES_ENABLED": "false"
+      }
+    }
+  }
+}

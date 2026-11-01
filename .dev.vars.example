@@ -1,0 +1,4 @@
+# Copy to .dev.vars for local development. Never commit .dev.vars.
+# For staging and production, set this with: npx wrangler secret put BOOTSTRAP_TOKEN --env production
+# Use a long random value, and delete the secret once the first administrator exists.
+BOOTSTRAP_TOKEN=local-development-bootstrap-token

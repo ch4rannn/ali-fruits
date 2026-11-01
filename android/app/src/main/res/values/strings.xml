@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Ali Fruits</string>
+    <string name="title_activity_main">Ali Fruits</string>
+    <string name="package_name">in.alifruits.app</string>
+    <string name="custom_url_scheme">in.alifruits.app</string>
+</resources>
